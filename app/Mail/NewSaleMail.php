@@ -1,0 +1,38 @@
+<?php
+
+namespace App\Mail;
+
+use Illuminate\Bus\Queueable;
+use Illuminate\Mail\Mailable;
+use Illuminate\Queue\SerializesModels;
+use Illuminate\Contracts\Queue\ShouldQueue;
+
+class NewSaleMail extends Mailable
+{
+    use Queueable, SerializesModels;
+
+    protected $sale;
+    protected $password;
+
+    /**
+     * Create a new message instance.
+     *
+     * @param $sale
+     * @param $password
+     */
+    public function __construct($sale, $password)
+    {
+        $this->sale = $sale;
+        $this->password = $password;
+    }
+
+    /**
+     * Build the message.
+     *
+     * @return $this
+     */
+    public function build()
+    {
+        return $this->markdown('emails.newSale', ['sale' => $this->sale, 'password' => $this->password])->subject('new sale');
+    }
+}
